@@ -3,16 +3,24 @@ import torch
 from torch import nn
 import transformers
 from typing import Optional, Tuple
+from transformers.utils import logging
 from transformers.models.llama.modeling_llama import apply_rotary_pos_emb
 
-try:
-    from xformers import ops as xops
-except ImportError:
-    xops = None
-    print(
-        "xformers is not installed correctly. If you want to use memory_efficient_attention use the following command "
-        "to install xformers\npip install xformers."
-    )
+xops = None
+
+logger = logging.get_logger(__name__)
+
+
+def _import_memory_efficient_attention():
+    global xops
+    try:
+        from xformers import ops as __xops
+        xops = __xops
+    except ImportError:
+        logger.warn(
+            "xformers is not installed correctly. If you want to use memory_efficient_attention use the following command "
+            "to install xformers\npip install xformers."
+        )
 
 
 def xformers_forward(
@@ -88,4 +96,5 @@ def xformers_forward(
 
 
 def apply_attention_patch():
+    _import_memory_efficient_attention()
     transformers.models.llama.modeling_llama.LlamaAttention.forward = xformers_forward
