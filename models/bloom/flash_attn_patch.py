@@ -66,7 +66,7 @@ def sdp_forward(
         attention_mask = self.beta * alibi
 
         with torch.backends.cuda.sdp_kernel(enable_flash=True, enable_math=True, enable_mem_efficient=True):
-            attn_output = F.scaled_dot_product_attention(query_layer, key_layer, value_layer, attn_mask=attention_mask, dropout_p=0.0)
+            attn_output = scaled_dot_product_attention(query_layer, key_layer, value_layer, attn_mask=attention_mask, dropout_p=0.0)
         attn_output = attn_output.transpose(1, 2)
         output_tensor = self.dense(attn_output)
 
