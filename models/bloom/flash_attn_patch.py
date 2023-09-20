@@ -129,4 +129,4 @@ def sdp_forward(
 
 def apply_sdp_kernel():
     _import_sdp_kernel()
-    transformers.models.bart.modeling_bart.BartAttention.forward = sdp_forward
+    transformers.models.bloom.modeling_bloom.BloomAttention.forward = sdp_forward
