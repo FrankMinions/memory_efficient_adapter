@@ -41,6 +41,8 @@ if training_args.use_flash_attn:
     from memory_efficient_adapter.models.llama.flash_attn_patch import apply_attention_patch
     apply_attention_patch()
 ```
+For Qwen, you need to replace the original `modeling_qwen.py` script. 
+
 The same applies to other models.
 
 ### References
