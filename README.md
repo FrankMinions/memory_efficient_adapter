@@ -4,6 +4,8 @@ Since the model structure scripts provided by transformers are not adapted to fl
 
 Therefore, I have done this work for the user in advance and embedded xformers and scaled_dot_product_attention in the corresponding positions of the code. 
 
+Since the framework provided by Dao-AILab only supports Ampere, Ada, or Hopper GPUs, and it does not support specifying attention bias, I chose the above in terms of versatility.
+
 However, you need to check your PyTorch version and make sure you have xformers installed.
 
 Currently, the project has adapted BLOOM, BART, LLaMA and Qwen LLM.
