@@ -11,3 +11,34 @@ However, you need to check your PyTorch version and make sure you have xformers 
 Currently, the project has adapted BLOOM, BART, LLaMA and Qwen LLM.
 
 Stay tuned for other models!
+
+How to use this GPU memory adapter?
+
+- step1: 
+```bash
+pip install -U xformers
+
+pip install torch torchvision torchaudio
+```
+Please check again whether the installed PyTorch version is 2.0 or above.
+
+- step2:
+
+Please declare a global variable in your training, fine-tuning or inference shell scripts:
+
+```bash
+export  USE_FLASH_ATTN=true
+
+torchrun --nproc_per_node=1 --nnodes=8 xxx.py \
+  --use_flash_attn USE_FLASH_ATTN \
+  ...
+```
+Before doing above you need to embed the following in your python script:
+```python
+if training_args.use_flash_attn:
+    
+    # if you want to train llama
+    from memory_efficient_adapter.models.llama.flash_attn_patch import apply_attention_patch
+    apply_attention_patch()
+```
+The same applies to other models.
