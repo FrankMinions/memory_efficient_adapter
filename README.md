@@ -27,7 +27,7 @@ Please check again whether the installed PyTorch version is 2.0 or above.
 Please declare a global variable in your training, fine-tuning or inference shell scripts:
 
 ```bash
-export  USE_FLASH_ATTN=true
+export USE_FLASH_ATTN=true
 
 torchrun --nproc_per_node=1 --nnodes=8 xxx.py \
   --use_flash_attn USE_FLASH_ATTN \
