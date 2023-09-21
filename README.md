@@ -8,11 +8,11 @@ Since the framework provided by Dao-AILab only supports Ampere, Ada, or Hopper G
 
 However, you need to check your PyTorch version and make sure you have xformers installed.
 
-Currently, the project has adapted BLOOM, BART, LLaMA and Qwen LLM.
+Currently, the project has adapted BLOOM, BART, LLaMA and Qwen language models.
 
 Stay tuned for other models!
 
-How to use this GPU memory adapter?
+### How to use this GPU memory adapter?
 
 - step1: 
 ```bash
@@ -42,3 +42,7 @@ if training_args.use_flash_attn:
     apply_attention_patch()
 ```
 The same applies to other models.
+
+### References
+#### Language models
+The language models utilize the transformers library by 🤗 Hugging Face.
