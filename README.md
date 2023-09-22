@@ -2,9 +2,9 @@
 
 Since the model structure scripts provided by transformers are not adapted to flash attention and memory efficient attention, users need to modify the source code themselves if they want to use the above two solutions and embed them in the process of calculating multi-head attention. This undoubtedly increases the user's workload and raises the threshold for using GPU memory optimization.
 
-Therefore, I have done this work for the user in advance and embedded xformers and `torch.nn.functional.scaled_dot_product_attention` in the corresponding positions of the code. 
+Therefore, I have done this work for the user in advance and embedded [xformers](https://github.com/facebookresearch/xformers) and [torch.nn.functional.scaled_dot_product_attention](https://pytorch.org/docs/stable/generated/torch.nn.functional.scaled_dot_product_attention.html) in the corresponding positions of the code. 
 
-Since the framework provided by Dao-AILab only supports Ampere, Ada, or Hopper GPUs, and it does not support specifying attention bias, I chose the above in terms of versatility.
+Since the framework provided by [Dao-AILab](https://github.com/Dao-AILab/flash-attention) only supports Ampere, Ada, or Hopper GPUs, and it does not support specifying attention bias, I chose the above in terms of versatility.
 
 However, you need to check your PyTorch version and make sure you have xformers installed.
 
