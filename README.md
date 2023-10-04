@@ -8,7 +8,7 @@ Since the framework provided by [Dao-AILab](https://github.com/Dao-AILab/flash-a
 
 However, you need to check your PyTorch version and make sure you have xformers installed.
 
-Currently, the project has adapted BLOOM, BART, LLaMA and Qwen language models.
+Currently, the project has adapted BLOOM, BART, LLaMA and Qwen-7B language models.
 
 Stay tuned for other models!
 
@@ -41,7 +41,7 @@ if training_args.use_flash_attn:
     from memory_efficient_adapter.models.llama.flash_attn_patch import apply_attention_patch
     apply_attention_patch()
 ```
-For Qwen, you need to replace the original `modeling_qwen.py` script. 
+For Qwen-7B, you need to replace the original `modeling_qwen.py` script. 
 
 The same applies to other models.
 
