@@ -10,7 +10,7 @@ However, you need to check your PyTorch version and make sure you have xformers 
 
 Currently, the project has adapted BLOOM, BART, LLaMA and Qwen-7B language models.
 
-Stay tuned for other models!
+Given that ChatGLM2-6B and Baichuan2 series have applied these optimization techniques in the process of calculating multi-head attention, so I will not do any operations on them here for the time being.
 
 ### How to use this GPU memory adapter?
 
