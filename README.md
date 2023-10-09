@@ -20,7 +20,7 @@ pip install -U xformers
 
 pip install torch torchvision torchaudio
 ```
-Please check again whether the installed PyTorch version is 2.0 or above.
+Please check again whether the installed PyTorch version is 2.0.1. For details, please see [xformers](https://github.com/facebookresearch/xformers).
 
 - step2:
 
