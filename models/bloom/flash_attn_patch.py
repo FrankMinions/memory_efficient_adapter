@@ -1,10 +1,11 @@
 import torch
-import transformers
+import torch.nn as nn
 import torch.utils.checkpoint
+from types import MethodType
 from transformers.utils import logging
 from typing import Optional, Tuple
 from torch.nn import functional as F
-from transformers.models.bloom.modeling_bloom import dropout_add
+from transformers.models.bloom.modeling_bloom import dropout_add, BloomAttention
 
 scaled_dot_product_attention = None
 
@@ -112,8 +113,8 @@ def sdp_forward(
             output_tensor = torch.zeros_like(context_layer)
             for i in range(self.pretraining_tp):
                 output_tensor = output_tensor + F.linear(
-                    context_layer[:, :, int(i * slices) : int((i + 1) * slices)],
-                    self.dense.weight[:, int(i * slices) : int((i + 1) * slices)],
+                    context_layer[:, :, int(i * slices): int((i + 1) * slices)],
+                    self.dense.weight[:, int(i * slices): int((i + 1) * slices)],
                 )
         else:
             output_tensor = self.dense(context_layer)
@@ -127,6 +128,8 @@ def sdp_forward(
     return outputs
 
 
-def apply_sdp_kernel():
+def apply_sdp_kernel(model: nn.Module):
     _import_sdp_kernel()
-    transformers.models.bloom.modeling_bloom.BloomAttention.forward = sdp_forward
+    for module in model.modules():
+        if isinstance(module, BloomAttention):
+            module.forward = MethodType(sdp_forward, module)

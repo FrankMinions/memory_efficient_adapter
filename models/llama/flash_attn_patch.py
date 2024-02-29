@@ -1,10 +1,10 @@
 import math
 import torch
 from torch import nn
-import transformers
+from types import MethodType
 from typing import Optional, Tuple
 from transformers.utils import logging
-from transformers.models.llama.modeling_llama import apply_rotary_pos_emb
+from transformers.models.llama.modeling_llama import apply_rotary_pos_emb, LlamaAttention
 
 xops = None
 
@@ -95,6 +95,8 @@ def xformers_forward(
     return attn_output, attn_weights, past_key_value
 
 
-def apply_attention_patch():
+def apply_attention_patch(model: nn.Module):
     _import_memory_efficient_attention()
-    transformers.models.llama.modeling_llama.LlamaAttention.forward = xformers_forward
+    for module in model.modules():
+        if isinstance(module, LlamaAttention):
+            module.forward = MethodType(xformers_forward, module)

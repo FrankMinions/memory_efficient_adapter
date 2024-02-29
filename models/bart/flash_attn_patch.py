@@ -1,8 +1,10 @@
 import torch
 from torch import nn
 import transformers
+from types import MethodType
 from typing import Optional, Tuple
 from transformers.utils import logging
+from transformers.models.bart.modeling_bart import BartAttention
 
 xops = None
 
@@ -152,6 +154,8 @@ def xformers_forward(
     return attn_output, attn_weights_reshaped, past_key_value
 
 
-def apply_attention_patch():
+def apply_attention_patch(model: nn.Module):
     _import_memory_efficient_attention()
-    transformers.models.bart.modeling_bart.BartAttention.forward = xformers_forward
+    for module in model.modules():
+        if isinstance(module, BartAttention):
+            module.forward = MethodType(xformers_forward, module)
